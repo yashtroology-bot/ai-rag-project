@@ -1,0 +1,196 @@
+%-------------------------
+% Resume in Latex
+% Author : Jake Gutierrez
+% Based off of: https://github.com/sb2nov/resume
+% License : MIT
+%------------------------
+
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\usepackage{fontawesome5}
+\usepackage{multicol}
+\setlength{\multicolsep}{-3.0pt}
+\setlength{\columnsep}{-1pt}
+\input{glyphtounicode}
+
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.6in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1.19in}
+\addtolength{\topmargin}{-.7in}
+\addtolength{\textheight}{1.4in}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large\bfseries
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+% Ensure that generate pdf is machine readable/ATS parsable
+\pdfgentounicode=1
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{1.0\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & \textbf{\small #2} \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{1.001\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & \textbf{\small #2}\\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\renewcommand\labelitemi{$\vcenter{\hbox{\tiny$\bullet$}}$}
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.0in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+%-------------------------------------------
+%%%%%%  RESUME STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\begin{center}
+    {\Huge \scshape Yash Shukla} \\ \vspace{1pt}
+    Jankinagar, Gonda, Uttar Pradesh 271001\\ \vspace{1pt}
+    \small \raisebox{-0.1\height}\faPhone\ 9838576734 ~
+   \href{mailto:shuklayash457@gmail.com}{\raisebox{-0.2\height}\faEnvelope\ \textunderline{shuklayash457@gmail.com}}
+  ~ 
+    \href{https://www.linkedin.com/in/yash-shukla-b92553212/}{\raisebox{-0.2\height}\faLinkedin\ \underline{LinkedIn}}  ~
+    \href{https://github.com/yashshuklaaa}{\raisebox{-0.2\height}\faGithub\ \underline{GitHub}}
+    \vspace{-8pt}
+\end{center}
+
+%-----------PROFESSIONAL SUMMARY-----------
+\section{Professional Summary}
+\small{Website Designer \& Frontend Developer with over 4.5 years of experience building modern, responsive, and highly performant web applications. Specialized in crafting stunning, accessible, and conversion-focused user interfaces using React, Next.js, and Tailwind CSS. Proven track record of turning complex requirements into polished, elegant user experiences while optimizing web performance, Lighthouse scores, and SEO. Adept at collaborating in agile environments to deliver seamless e-commerce and web platforms that drive measurable increases in user engagement and sales conversions.}
+\vspace{2pt}
+
+%-----------LIVE PROJECTS-----------
+\section{Live Projects}
+\vspace{4pt}
+
+\textbf{ScalePart (eVehicle Platform)} \\
+\vspace{2pt}
+\resumeItemListStart
+    \resumeItem{Engineered a high-performance frontend dashboard handling \textbf{50,000+ unstructured catalog entries} via optimized React state management.}
+    \resumeItem{Optimized React rendering cycles, reducing initial page load times by \textbf{40\%} for a seamless, conversion-friendly user experience.}
+    \vspace{-4pt}
+    \resumeItem{Live Link: \href{https://scalepart.com/}{https://scalepart.com/}}
+\resumeItemListEnd
+
+\vspace{6pt}
+
+\textbf{MOOC Ed-Tech Platform (Jalshaala)} \\
+\vspace{2pt}
+\resumeItemListStart
+\resumeItem{Architected a full-scale frontend supporting over \textbf{5,000+ active users} with zero UI bottlenecks.}
+\resumeItem{Achieved a \textbf{95+ Lighthouse Performance Score} by implementing advanced caching, lazy loading, and modern image optimization techniques.}
+\resumeItem{Live Link: \href{https://new.jalshaala.com/?showWebsite=true}{https://new.jalshaala.com/?showWebsite=true}}
+\resumeItemListEnd
+
+\vspace{10pt}
+
+%-----------EXPERIENCE-----------
+\section{Experience}
+  \resumeSubHeadingListStart
+
+\resumeSubheading
+{Troology}{Sept 2025 -- Present}
+{Frontend Engineer}{On-Site}
+\resumeItemListStart
+
+\resumeItem{Spearheading the frontend architecture of the \textbf{eVehicle platform (ScalePart)}, delivering a highly responsive user interface that reduced data rendering times by \textbf{45\%} for complex catalog data.}
+\resumeItem{Optimized frontend-to-backend communication with RESTful APIs, reducing data payload sizes and slashing dashboard load latency by \textbf{60\%}.}
+\resumeItem{Ensured seamless state integration across complex \textbf{React.js/TypeScript} views, boosting overall \textbf{Lighthouse performance and accessibility scores to 95+}.}
+\resumeItem{Contributed to the \textbf{UPSDMA platform (Rahat Sewa App)} for SDRF personnel, developing highly concurrent UI features with \textbf{99.9\% frontend uptime} during critical disaster scenarios.}
+\resumeItemListEnd
+
+\resumeSubheading
+{Cognitivo}{Jun 2024 -- Aug 2025}
+{Frontend Developer}{Hybrid}
+\resumeItemListStart
+
+\resumeItem{Refactored legacy UI components using \textbf{React.js, TypeScript, Material UI, and Tailwind CSS}, drastically cutting First Contentful Paint (FCP) by \textbf{1.2 seconds} and achieving a \textbf{100\% web accessibility (a11y) score}.}
+\resumeItem{Integrated OpenAI GPT-based conversational interfaces directly into the frontend, automating \textbf{40\%} of user support queries and increasing overall user retention by \textbf{25\%}.}
+\resumeItem{Implemented \textbf{Web Push Notifications} using Service Workers and VAPID keys, boosting Daily Active User (DAU) engagement by \textbf{35\%} through real-time alerts.}
+\resumeItem{Enhanced cross-team efficiency by building custom frontend dashboards integrated with Monday.com webhooks, reducing manual syncing tasks by \textbf{15+ hours/week}.}
+\resumeItemListEnd
+
+\resumeSubheading
+{Singularies Pvt Ltd}{Jan 2023 -- May 2024}
+{Software Engineer}{Remote}
+\resumeItemListStart
+\resumeItem{Accelerated frontend development cycles by \textbf{30\%} by creating a centralized, reusable, and highly performant UI component library utilizing \textbf{Tailwind CSS and Storybook}.}
+\resumeItem{Spearheaded the migration of core product views to \textbf{Remix and React.js}, leveraging Server-Side Rendering (SSR) to cut initial load times by \textbf{45\%} and significantly improve \textbf{SEO}.}
+\resumeItem{Worked in a fast-paced remote agile environment, consistently delivering \textbf{100\%} of sprint UI deliverables on time while integrating critical third-party APIs.}
+\resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+
+%-----------TECHNICAL SKILLS-----------
+\section{Technical Skills}
+\begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Frontend \& UI/UX:}{ React.js, Next.js, Remix, TypeScript, Tailwind CSS, Material UI, HTML5/CSS3, Redux, Figma, Storybook} \\
+     \textbf{Languages:}{ TypeScript, JavaScript, SQL, HTML/CSS} \\
+     \textbf{Performance \& Tools:}{ Web Accessibility (a11y), Frontend Performance Tuning (Lighthouse, FCP), Git, Webpack/Vite} \\
+     \textbf{Other:}{ Responsive Web Design, Conversion Rate Optimization (CRO), Cross-Browser Compatibility}
+    }}
+\end{itemize}
+
+%-----------ACHIEVEMENTS-----------
+\section{Achievements}
+\begin{itemize}      
+    \resumeItem{Ranked \textbf{1st in College} on \href{https://auth.geeksforgeeks.org/user/yashshuklal20}{\textbf{GeeksforGeeks}}}
+    \resumeItem{\textbf{3 Star} Coder on \href{https://leetcode.com/Shukla_Yash/} {\textbf{LeetCode}} (1540 rating, Top 34\%)}  
+    \resumeItem{Solved \textbf{1000+ Data Structure and Algorithm Problems} across LeetCode, GFG, and CodeChef} 
+    \resumeItem{Maintained an \textbf{831-day longest streak} on \href{https://leetcode.com/Shukla_Yash/}{\textbf{LeetCode}}}   
+\end{itemize}
+
+%-----------EDUCATION-----------
+\section{Education}
+\resumeSubHeadingListStart
+    \resumeSubheading
+        {Rajkiya Engineering College Bijnor}{2020--2024}
+        {Bachelor of Technology in Electrical Engineering; CGPA: 7.56/10}{Bijnor, India}
+\resumeSubHeadingListEnd
+
+\end{document}

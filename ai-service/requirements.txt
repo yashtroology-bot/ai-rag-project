@@ -7,3 +7,8 @@ chromadb
 sentence-transformers
 pydantic
 python-multipart
+langchain-groq
+python-dotenv
+pypdf
+langchain-text-splitters
+duckduckgo-search

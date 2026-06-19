@@ -1,0 +1,229 @@
+%-------------------------
+% Resume in Latex
+% Author : Jake Gutierrez
+% Based off of: https://github.com/sb2nov/resume
+% License : MIT
+%------------------------
+
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\usepackage{fontawesome5}
+\usepackage{multicol}
+\setlength{\multicolsep}{-3.0pt}
+\setlength{\columnsep}{-1pt}
+\input{glyphtounicode}
+
+%----------FONT OPTIONS----------
+% sans-serif
+% \usepackage[sfdefault]{FiraSans}
+% \usepackage[sfdefault]{roboto}
+% \usepackage[sfdefault]{noto-sans}
+% \usepackage[default]{sourcesanspro}
+
+% serif
+% \usepackage{CormorantGaramond}
+% \usepackage{charter}
+
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.6in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1.19in}
+\addtolength{\topmargin}{-.7in}
+\addtolength{\textheight}{1.4in}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large\bfseries
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+% Ensure that generate pdf is machine readable/ATS parsable
+\pdfgentounicode=1
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{1.0\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & \textbf{\small #2} \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{1.001\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & \textbf{\small #2}\\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\renewcommand\labelitemi{$\vcenter{\hbox{\tiny$\bullet$}}$}
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.0in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+%-------------------------------------------
+%%%%%%  RESUME STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\begin{center}
+    {\Huge \scshape Yash Shukla} \\ \vspace{1pt}
+    Jankinagar, Gonda, Uttar Pradesh 271001\\ \vspace{1pt}
+    \small \raisebox{-0.1\height}\faPhone\ 9838576734 ~
+   \href{mailto:shuklayash457@gmail.com}{\raisebox{-0.2\height}\faEnvelope\ \textunderline{shuklayash457@gmail.com}}
+  ~ 
+    \href{https://www.linkedin.com/in/yash-shukla-b92553212/}{\raisebox{-0.2\height}\faLinkedin\ \underline{LinkedIn}}  ~
+    \href{https://github.com/yashshuklaaa}{\raisebox{-0.2\height}\faGithub\ \underline{GitHub}}
+    \vspace{-8pt}
+\end{center}
+
+%-----------PROFESSIONAL SUMMARY-----------
+\section{Professional Summary}
+\small{Full Stack \& AI Developer with over 3.5 years of experience engineering high-performance, scalable web solutions. Specialized in crafting robust backends and stunning user interfaces using the MERN stack and Next.js/React. Highly experienced in integrating AI-powered features, LLMs, and data extraction pipelines to build intelligent applications. Currently exploring Google Cloud Platform (GCP) and Vertex AI to drive next-generation, cloud-native machine learning solutions. Passionate about leveraging AI to automate complex processes and elevate user experiences.}
+\vspace{2pt}
+
+%-----------LIVE PROJECTS-----------
+\section{Live Projects}
+\vspace{4pt}
+
+\textbf{MOOC Ed-Tech Platform (Jalshaala)} \\
+\vspace{2pt}
+\resumeItemListStart
+\resumeItem{Developed a full-scale \textbf{Ed-Tech platform} from scratch, handling frontend, backend, authentication, database design, and deployment.}
+\resumeItem{Implemented scalable architecture and interactive learning features for seamless user experience.}
+\resumeItem{Live Link: \href{https://new.jalshaala.com/?showWebsite=true}{https://new.jalshaala.com/?showWebsite=true}}
+\resumeItemListEnd
+
+\vspace{6pt}
+
+\textbf{ScalePart (eVehicle Platform)} \\
+\vspace{2pt}
+\resumeItemListStart
+    \resumeItem{Built and contributed to an \textbf{eVehicle platform} focused on scalable solutions and modern UI/UX.}
+    \resumeItem{Engineered a seamless \textbf{AI-driven data extraction pipeline} to parse complex PDFs into structured database records.}
+    \vspace{-4pt}
+    \resumeItem{Live Link: \href{https://scalepart.com/}{https://scalepart.com/}}
+\resumeItemListEnd
+
+\vspace{10pt}
+
+%-----------EXPERIENCE-----------
+\section{Experience}
+  \resumeSubHeadingListStart
+
+\resumeSubheading
+{Troology}{Sept 2025 -- Present}
+{Full Stack AI Developer}{On-Site}
+\resumeItemListStart
+
+\resumeItem{Currently spearheading the \textbf{eVehicle platform (ScalePart)}, developing both frontend architectures and backend AI integrations to handle unstructured catalog data.}
+\resumeItem{Engineered an \textbf{AI-driven document extraction pipeline} utilizing external LLM endpoints to automatically parse complex PDF manuals and unstructured text, extracting precise product model numbers, series names, and technical specifications.}
+\resumeItem{Built an \textbf{intelligent caching and confidence scoring layer} for AI responses, significantly reducing external API latency and costs while ensuring highly accurate data mapping to MongoDB schemas.}
+\resumeItem{Contributed to the \textbf{UPSDMA (Uttar Pradesh State Disaster Management Authority)} platform (Rahat Sewa App) for SDRF personnel, building features ensuring highly concurrent usage and operational reliability.}
+\resumeItem{Actively \textbf{exploring and upskilling in Google Cloud Platform (GCP)} and its suite of ML services to architect scalable AI infrastructures and predictive data models.}
+\resumeItem{Developing and optimizing RESTful architectures with \textbf{Node.js, Express.js, TypeScript}, and ensuring seamless state integration in React.js applications.}
+\resumeItemListEnd
+
+\resumeSubheading
+{Cognitivo}{Jun 2024 -- Aug 2025}
+{Full Stack Developer}{Hybrid}
+\resumeItemListStart
+
+\resumeItem{Integrated \textbf{AI-powered conversational features (OpenAI GPT-based)} directly into applications, providing intelligent user assistance, automating responses, and increasing user retention.}
+\resumeItem{Architected and optimized end-to-end \textbf{RESTful and GraphQL APIs} using \textbf{Node.js and PostgreSQL/MongoDB}, improving query efficiency and supporting a \textbf{50\% increase in concurrent user traffic}.}
+\resumeItem{Built \textbf{Web Push Notifications} using Service Workers and VAPID keys to implement real-time event-driven alert systems.}
+\resumeItem{Integrated complex \textbf{third-party platforms} including Monday.com via custom webhooks and automation scripts, accelerating cross-team operational efficiency.}
+\resumeItem{Refactored legacy UI components using \textbf{React.js, TypeScript, Material UI, and Tailwind CSS}, drastically improving frontend performance, responsiveness, and web accessibility.}
+\resumeItemListEnd
+
+\resumeSubheading
+{Singularies Pvt Ltd}{Jan 2023 -- May 2024}
+{Software Engineer}{Remote}
+\resumeItemListStart
+\resumeItem{Designed and implemented robust features for a key product, writing maintainable logic utilizing \textbf{TypeScript, React.js, and Remix frameworks}.}
+\resumeItem{Developed scalable backend microservices using \textbf{Go (Golang)} and integrated critical third-party APIs ensuring high reliability and fault tolerance.}
+\resumeItem{Created high-performance, reusable UI components with \textbf{Tailwind CSS}, focusing on an inclusive, accessible user experience across all devices.}
+\resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+
+%-----------PROJECTS-----------
+\section{Projects}
+    \vspace{-5pt}
+    \resumeSubHeadingListStart
+
+
+
+    \resumeProjectHeading
+        {\textbf{Twitter Clone} $|$ \emph{Node.js, Express, MongoDB, JWT}}{\href{https://github.com/yashshuklaaa/Twiteer-clone}{\underline{Source Code}}}
+    \resumeItemListStart
+        \resumeItem{Developed a robust backend architecture using \textbf{Node.js and Express.js}, providing core functionalities for user authentication, tweet creation, and dynamic timeline management.}
+        \resumeItem{Implemented secure authentication flows utilizing \textbf{JSON Web Tokens (JWT)} and password hashing with \textbf{bcryptjs} to protect user data and sessions.}
+        \resumeItem{Integrated complex relational features including user associations (follow/unfollow) and interaction systems (likes and comments), ensuring efficient data management in \textbf{MongoDB}.}
+        \resumeItem{Designed and rigorously tested a comprehensive \textbf{RESTful API} using \textbf{Postman}, ensuring reliable, well-documented endpoints for seamless frontend integration.}
+    \resumeItemListEnd
+
+    \resumeSubHeadingListEnd
+
+%-----------TECHNICAL SKILLS-----------
+\section{Technical Skills}
+\begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{AI \& Cloud (Exploring):}{ AI Integrations (LLMs, Prompts, Extraction), Google Cloud Platform (GCP), Vertex AI} \\
+     \textbf{Languages:}{ TypeScript, JavaScript, Go, C++, SQL, HTML/CSS} \\
+     \textbf{Frontend:}{ React.js, Remix, Tailwind CSS, Material UI, Redux} \\
+     \textbf{Backend \& Databases:}{ Node.js, Express.js, MongoDB, PostgreSQL, REST/GraphQL APIs} \\
+     \textbf{Tools:}{ Git, Docker, Postman, VS Code}
+    }}
+\end{itemize}
+
+%-----------ACHIEVEMENTS-----------
+\section{Achievements}
+\begin{itemize}      
+    \resumeItem{Ranked \textbf{1st in College} on \href{https://auth.geeksforgeeks.org/user/yashshuklal20}{\textbf{GeeksforGeeks}}}
+    \resumeItem{\textbf{3 Star} Coder on \href{https://leetcode.com/Shukla_Yash/} {\textbf{LeetCode}} (1540 rating, Top 34\%)}  
+    \resumeItem{Solved \textbf{1000+ Data Structure and Algorithm Problems} across LeetCode, GFG, and CodeChef} 
+    \resumeItem{Maintained an \textbf{831-day longest streak} on \href{https://leetcode.com/Shukla_Yash/}{\textbf{LeetCode}}}   
+\end{itemize}
+
+%-----------EDUCATION-----------
+\section{Education}
+\resumeSubHeadingListStart
+    \resumeSubheading
+        {Rajkiya Engineering College Bijnor}{2020--2024}
+        {Bachelor of Technology in Electrical Engineering; CGPA: 7.56/10}{Bijnor, India}
+\resumeSubHeadingListEnd
+
+\end{document}
