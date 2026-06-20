@@ -7,6 +7,7 @@ from typing import List, Dict, Any
 from dotenv import load_dotenv
 from langchain_groq import ChatGroq
 from rag_core import process_and_store_document, query_rag
+from data_agent import process_data_chat
 
 # Load environment variables from .env file
 load_dotenv()
@@ -24,9 +25,19 @@ class QueryRequest(BaseModel):
     image_base64: str = None
     history: List[Dict[str, Any]] = []
 
+class DataChatRequest(BaseModel):
+    question: str
+
 @app.get("/")
 def read_root():
     return {"message": "AI RAG Microservice is running and ready!"}
+
+@app.post("/data-chat")
+def data_chat(request: DataChatRequest):
+    try:
+        return process_data_chat(request.question)
+    except Exception as e:
+        return {"error": str(e)}
 
 @app.post("/ask")
 def ask_question(request: QueryRequest):

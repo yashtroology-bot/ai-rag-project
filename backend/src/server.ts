@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import multer from 'multer';
 import fs from 'fs';
+import path from 'path';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import http from 'http';
@@ -28,9 +29,22 @@ mongoose.connect(MONGO_URI)
   .catch((err) => console.error('❌ MongoDB connection error:', err));
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-const upload = multer({ dest: 'uploads/' });
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    // Remove spaces from original name for cleaner URLs
+    const cleanName = file.originalname.replace(/\s+/g, '_');
+    cb(null, uniqueSuffix + '-' + cleanName);
+  }
+});
+const upload = multer({ storage: storage });
 
 // Auth Routes
 app.use('/api/auth', authRoutes);
@@ -75,6 +89,20 @@ app.post('/api/upload', protect, upload.single('file'), async (req: AuthRequest,
 
         // Save persistent record in chat history if sessionId exists
         if (sessionId) {
+            let base64String = '';
+            try {
+                const fileBuffer = fs.readFileSync(file.path);
+                base64String = `data:${file.mimetype};base64,${fileBuffer.toString('base64')}`;
+            } catch (err) {
+                console.error("Failed to read file for base64 storage:", err);
+            }
+
+            await ChatSession.findByIdAndUpdate(sessionId, {
+                attachedFileUrl: `/uploads/${file.filename}`,
+                attachedFileName: file.originalname,
+                attachedFileBase64: base64String || undefined
+            });
+
             await Chat.create({ 
                 sessionId: sessionId,
                 userId: req.user?.id,
@@ -124,7 +152,8 @@ app.post('/api/ask', protect, async (req: AuthRequest, res: Response) => {
             sessionId: currentSessionId,
             userId: req.user?.id,
             role: 'user', 
-            content: contentToSave 
+            content: contentToSave,
+            imageBase64: image || undefined
         });
 
         // 2. Fetch recent chat history for context

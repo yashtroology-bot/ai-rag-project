@@ -8,7 +8,9 @@ function App() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [isListening, setIsListening] = useState(false);
   const messagesEndRef = useRef(null);
+  const recognitionRef = useRef(null);
   
   // URL to our Node Backend (which forwards to Python)
   const API_BASE = 'http://localhost:5000/api';
@@ -20,6 +22,54 @@ function App() {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Setup Web Speech API (Jarvis Voice)
+  useEffect(() => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      const recognition = new SpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = 'en-US';
+
+      recognition.onstart = () => setIsListening(true);
+      recognition.onerror = (event) => {
+        console.error("Speech recognition error:", event.error);
+        setIsListening(false);
+      };
+      recognition.onend = () => setIsListening(false);
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        setInput(transcript);
+        // Note: we just fill the text box so user can review before sending
+      };
+      recognitionRef.current = recognition;
+    }
+  }, []);
+
+  const toggleListen = () => {
+    if (isListening) {
+      recognitionRef.current?.stop();
+    } else {
+      recognitionRef.current?.start();
+    }
+  };
+
+  const speakText = (text) => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      // Clean up text (remove markdown like ** or # for speech)
+      const cleanText = text.replace(/[*#]/g, '');
+      const utterance = new SpeechSynthesisUtterance(cleanText);
+      
+      const voices = window.speechSynthesis.getVoices();
+      // Try to find a male English voice to sound like Jarvis, fallback to first available
+      const englishVoices = voices.filter(v => v.lang.startsWith('en'));
+      utterance.voice = englishVoices.find(v => v.name.toLowerCase().includes('male')) || englishVoices[0] || voices[0];
+      
+      window.speechSynthesis.speak(utterance);
+    }
+  };
 
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
@@ -70,6 +120,7 @@ function App() {
       
       if (response.ok) {
         setMessages(prev => [...prev, { role: 'ai', content: data.answer }]);
+        speakText(data.answer); // Speak the AI's response
       } else {
         throw new Error(data.error || "Failed to get an answer");
       }
@@ -120,6 +171,14 @@ function App() {
 
       {/* Input Area */}
       <form className="input-area" onSubmit={handleSendMessage}>
+        <button 
+          type="button" 
+          className={`mic-btn ${isListening ? 'listening' : ''}`}
+          onClick={toggleListen}
+          title={isListening ? "Stop Listening" : "Voice Input (Jarvis)"}
+        >
+          {isListening ? '🔴' : '🎙️'}
+        </button>
         <input 
           type="text" 
           value={input}

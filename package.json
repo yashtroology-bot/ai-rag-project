@@ -1,0 +1,14 @@
+{
+  "name": "ai-rag-project-root",
+  "version": "1.0.0",
+  "description": "Root package to run all services concurrently using Bun",
+  "scripts": {
+    "dev": "concurrently -k -n \"AI-SERVICE,BACKEND,FRONTEND\" -c \"cyan,magenta,yellow\" \"bun run dev:ai\" \"bun run dev:backend\" \"bun run dev:frontend\"",
+    "dev:ai": "cd ai-service && source venv/bin/activate && uvicorn main:app --reload --port 8000",
+    "dev:backend": "cd backend && bun run dev",
+    "dev:frontend": "cd frontend && bun run dev"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

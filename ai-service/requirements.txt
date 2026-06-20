@@ -12,3 +12,4 @@ python-dotenv
 pypdf
 langchain-text-splitters
 duckduckgo-search
+pymongo

@@ -9,18 +9,22 @@ import { io, Socket } from 'socket.io-client';
 import { 
   MessageSquare, Plus, LogOut, Paperclip, 
   Send, Bot, User as UserIcon, X, FileText,
-  Mic, Volume2, Image as ImageIcon
+  Mic, MicOff, Volume2, VolumeX, Image as ImageIcon, StopCircle
 } from 'lucide-react';
 
 interface Message {
   role: 'user' | 'ai';
   content: string;
+  imageBase64?: string;
 }
 
 interface Session {
   _id: string;
   title: string;
   updatedAt: string;
+  attachedFileUrl?: string;
+  attachedFileName?: string;
+  attachedFileBase64?: string;
 }
 
 const Dashboard = () => {
@@ -36,9 +40,11 @@ const Dashboard = () => {
   const [showPdf, setShowPdf] = useState<boolean>(false);
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [isListening, setIsListening] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const recognitionRef = useRef<any>(null);
   
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -90,7 +96,7 @@ const Dashboard = () => {
       
       if (isInitialLoad) {
         if (data.length > 0) {
-          loadChatHistory(data[0]._id);
+          loadChatHistory(data[0]._id, data);
         } else {
           startNewChat();
         }
@@ -104,9 +110,24 @@ const Dashboard = () => {
     loadSessions(true);
   }, [user]);
 
-  const loadChatHistory = async (sessionId: string) => {
+  const loadChatHistory = async (sessionId: string, sessionList?: Session[]) => {
     if (!user) return;
     setActiveSessionId(sessionId);
+
+    // Set PDF URL if this session has an attached document
+    const currentSessions = sessionList || sessions;
+    const activeSession = currentSessions.find(s => s._id === sessionId);
+    if (activeSession?.attachedFileBase64) {
+      setPdfUrl(activeSession.attachedFileBase64);
+      setShowPdf(true);
+    } else if (activeSession?.attachedFileUrl) {
+      setPdfUrl(`http://localhost:5000${activeSession.attachedFileUrl}`);
+      setShowPdf(true);
+    } else {
+      setPdfUrl(null);
+      setShowPdf(false);
+    }
+
     try {
       const res = await fetch(`${API_BASE}/history/${sessionId}`, {
         headers: { Authorization: `Bearer ${user.token}` }
@@ -124,7 +145,9 @@ const Dashboard = () => {
 
   const startNewChat = () => {
     setActiveSessionId(null);
-    setMessages([{ role: 'ai', content: `Hello ${user?.name}! I am your AI Assistant. You can upload a PDF or ask me a question.` }]);
+    const greeting = `Hello Boss, systems are online. How can I help you today?`;
+    setMessages([{ role: 'ai', content: greeting }]);
+    speakText(greeting);
   };
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -163,6 +186,7 @@ const Dashboard = () => {
       if (response.status === 202) {
         toast.success(`Upload accepted!`);
         setMessages(prev => [...prev, { role: 'ai', content: `I have received ${file.name} and I am processing it in the background. I'll let you know as soon as it's ready!` }]);
+        loadSessions(); // Refresh sessions so the new attachment URL is fetched from backend
       } else if (response.ok) {
         setMessages(prev => [...prev, { role: 'ai', content: `I have read ${file.name}. What would you like to know about it?` }]);
       } else {
@@ -173,7 +197,13 @@ const Dashboard = () => {
     }
   };
 
-  const startVoiceRecognition = () => {
+  const toggleVoiceRecognition = () => {
+    if (isListening && recognitionRef.current) {
+      recognitionRef.current.stop();
+      setIsListening(false);
+      return;
+    }
+
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     if (!SpeechRecognition) {
       toast.error("Voice input is not supported in this browser.");
@@ -193,13 +223,51 @@ const Dashboard = () => {
       setInput(prev => prev ? `${prev} ${transcript}` : transcript);
     };
 
+    recognitionRef.current = recognition;
     recognition.start();
+  };
+
+  const stopSpeaking = () => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      setIsSpeaking(false);
+    }
   };
 
   const speakText = (text: string) => {
     if ('speechSynthesis' in window) {
       window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
+      // Clean up markdown like ** and # for cleaner speech
+      const cleanText = text.replace(/[*#]/g, '');
+      const utterance = new SpeechSynthesisUtterance(cleanText);
+      
+      utterance.onstart = () => setIsSpeaking(true);
+      utterance.onend = () => setIsSpeaking(false);
+      utterance.onerror = () => setIsSpeaking(false);
+
+      // Try to find a male English voice to sound like Jarvis (David, Mark, or Male)
+      const voices = window.speechSynthesis.getVoices();
+      const englishVoices = voices.filter(v => v.lang.startsWith('en'));
+      
+      const maleVoice = englishVoices.find(v => {
+        const name = v.name.toLowerCase();
+        return name.includes('male') || 
+               name.includes('david') || 
+               name.includes('mark') || 
+               name.includes('george') ||
+               name.includes('daniel') ||
+               name.includes('arthur') ||
+               name.includes('fred') ||
+               name.includes('alex') ||
+               name.includes('bruce');
+      });
+
+      if (maleVoice) {
+        utterance.voice = maleVoice;
+      } else if (englishVoices.length > 0) {
+        utterance.voice = englishVoices[0];
+      }
+      
       window.speechSynthesis.speak(utterance);
     }
   };
@@ -210,7 +278,7 @@ const Dashboard = () => {
 
     const userMessage = input.trim();
     setInput('');
-    setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+    setMessages(prev => [...prev, { role: 'user', content: userMessage, imageBase64: uploadedImage || undefined }]);
     setIsLoading(true);
 
     try {
@@ -251,11 +319,14 @@ const Dashboard = () => {
       const reader = response.body.getReader();
       const decoder = new TextDecoder('utf-8');
 
+      let fullResponseText = '';
+
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
         
         const chunkText = decoder.decode(value, { stream: true });
+        fullResponseText += chunkText;
         
         setMessages(prev => {
           const newMessages = [...prev];
@@ -266,6 +337,9 @@ const Dashboard = () => {
           return newMessages;
         });
       }
+
+      // Automatically speak the response after it finishes generating
+      speakText(fullResponseText);
 
     } catch (error: any) {
       toast.error(error.message || "Failed to connect to AI");
@@ -293,7 +367,7 @@ const Dashboard = () => {
           {sessions.map(session => (
             <button
               key={session._id} 
-              onClick={() => loadChatHistory(session._id)}
+              onClick={() => loadChatHistory(session._id, sessions)}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-md text-sm truncate transition-colors w-full text-left
                 ${activeSessionId === session._id ? 'bg-zinc-800 text-zinc-100' : 'text-zinc-400 hover:bg-zinc-800/50 hover:text-zinc-200'}`}
             >
@@ -385,6 +459,11 @@ const Dashboard = () => {
                           ? 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-tr-sm' 
                           : 'bg-zinc-800/80 text-zinc-100 border border-zinc-700/50 rounded-tl-sm'}`}
                       >
+                        {msg.imageBase64 && (
+                          <div className="mb-3">
+                            <img src={msg.imageBase64} className="max-h-64 rounded-md border border-zinc-700/50 shadow-md" alt="Attached" />
+                          </div>
+                        )}
                         <ReactMarkdown>
                           {msg.content}
                         </ReactMarkdown>
@@ -442,14 +521,24 @@ const Dashboard = () => {
                 onSubmit={handleSendMessage}
                 className="flex items-end gap-2 bg-zinc-900 border border-zinc-700 shadow-xl rounded-2xl overflow-hidden focus-within:border-emerald-500/50 focus-within:ring-1 focus-within:ring-emerald-500/50 transition-all p-2"
               >
+                {isSpeaking && (
+                  <button 
+                    type="button"
+                    onClick={stopSpeaking}
+                    className="shrink-0 w-9 h-9 rounded-xl flex items-center justify-center transition-colors mb-1 text-red-400 hover:bg-red-500/20 hover:text-red-300"
+                    title="Stop AI Speaking"
+                  >
+                    <StopCircle size={18} />
+                  </button>
+                )}
                 <button 
                   type="button"
-                  onClick={startVoiceRecognition}
+                  onClick={toggleVoiceRecognition}
                   className={`shrink-0 w-9 h-9 rounded-xl flex items-center justify-center transition-colors mb-1
                     ${isListening ? 'bg-red-500/20 text-red-500 animate-pulse' : 'text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200'}`}
-                  title="Voice Input"
+                  title={isListening ? "Stop Listening" : "Start Voice Input"}
                 >
-                  <Mic size={18} />
+                  {isListening ? <MicOff size={18} /> : <Mic size={18} />}
                 </button>
                 <textarea 
                   value={input}

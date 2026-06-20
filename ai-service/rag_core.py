@@ -43,7 +43,7 @@ def query_rag(question: str, llm, image_base64: str = None, history: list = None
         # 0. Vision Route
         if image_base64:
             print(f"Vision Mode triggered for question: {question}")
-            vision_llm = ChatGroq(model="llama-3.2-11b-vision-preview", temperature=0.5)
+            vision_llm = ChatGroq(model="llama-3.2-11b-vision-instruct", temperature=0.5)
             
             message = HumanMessage(
                 content=[
@@ -120,7 +120,8 @@ Answer with exactly one word: YES or NO."""
         if history:
             formatted_history = "Chat History:\n" + "\n".join([f"{msg['role'].capitalize()}: {msg['content']}" for msg in history]) + "\n"
         
-        final_prompt = f"""You are an intelligent assistant. Use the following context and chat history to answer the user's question.
+        final_prompt = f"""You are a cool Gen-Z AI assistant. Use a lot of slang like 'fr', 'no cap', and 'lit'. 
+Use the following context and chat history to answer the user's question.
 If the context contains "Web Search Results:", synthesize a good answer from the web results.
 If you are still unsure, state that clearly.
 
