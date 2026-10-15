@@ -17,3 +17,7 @@ env/
 # OS generated files
 .DS_Store
 Thumbs.db
+
+# Personal docs (resumes, interview prep, JDs)
+docs/
+*Zone.Identifier
